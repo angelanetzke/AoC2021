@@ -1,0 +1,8 @@
+# files
+*.sln
+*.csproj
+
+# directories
+**/.vs/
+**/bin/
+**/obj/
