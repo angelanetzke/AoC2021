@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 
 namespace Dec03
@@ -69,21 +70,14 @@ namespace Dec03
                             oxygenZeroCount++;
                         }
                     }
-                    List<String> oxygenTemp = new List<String>();
                     char oxygenMostCommon = '1';
                     if (oxygenZeroCount > oxygenOneCount)
                     {
                         oxygenMostCommon = '0';
                     }
-
-                    foreach (string thisString in remainingOxygenStrings)
-                    {
-                        if (thisString.ToCharArray()[i] == oxygenMostCommon)
-                        {
-                            oxygenTemp.Add(thisString);
-                        }
-                    }
-                    remainingOxygenStrings = oxygenTemp;
+                    remainingOxygenStrings = new List<string>(from elements in remainingOxygenStrings
+                                                              where elements.ToCharArray()[i] == oxygenMostCommon
+                                                              select elements);
                 }
                 if (remainingCO2Strings.Count > 1)
                 {
@@ -105,15 +99,9 @@ namespace Dec03
                     {
                         co2MostCommon = '0';
                     }
-                    List<String> co2Temp = new List<String>();
-                    foreach (string thisString in remainingCO2Strings)
-                    {
-                        if (thisString.ToCharArray()[i] != co2MostCommon)
-                        {
-                            co2Temp.Add(thisString);
-                        }
-                    }
-                    remainingCO2Strings = co2Temp;
+                    remainingCO2Strings = new List<string>(from elements in remainingCO2Strings
+                                                           where elements.ToCharArray()[i] != co2MostCommon
+                                                           select elements);
                 }
                 if (remainingOxygenStrings.Count == 1 && remainingCO2Strings.Count == 1)
                 {
