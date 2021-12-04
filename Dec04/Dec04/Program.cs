@@ -53,10 +53,9 @@ namespace Dec04
             BingoCard lastWinner = null;
             List<BingoCard> previousWinners = new List<BingoCard>();
             cards.ForEach(element => element.Reset());
-
+            List<BingoCard> stillInPlay = new List<BingoCard>(cards);
             foreach (string thisNumber in numbers)
             {                
-                List<BingoCard> stillInPlay = cards.Where(element => !element.IsAWinner()).ToList();
                 stillInPlay.ForEach(element => element.MarkSquare(int.Parse(thisNumber)));              
                 IEnumerable<BingoCard> winners = cards.Where(element => element.IsAWinner());
                 foreach (BingoCard thisWinner in winners)
@@ -64,6 +63,7 @@ namespace Dec04
                     if (!previousWinners.Contains(thisWinner))
                     {
                         previousWinners.Add(thisWinner);
+                        stillInPlay.Remove(thisWinner);
                         lastWinner = thisWinner;
                         lastNumber = int.Parse(thisNumber);
                     }
