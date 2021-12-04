@@ -24,13 +24,12 @@ namespace Dec04
                 cards.Add(thisCard);
                 startIndex += SIZE + 1;
             }
+            int lastNumber = -1;
             BingoCard winner = null;
             foreach (string thisNumber in numbers)
             {
-                foreach(BingoCard thisCard in cards)
-                {
-                    thisCard.MarkSquare(int.Parse(thisNumber));
-                }
+                lastNumber = int.Parse(thisNumber);
+                cards.ForEach(element => element.MarkSquare(lastNumber));
                 foreach (BingoCard thisCard in cards)
                 {
                     if (thisCard.IsAWinner())
@@ -46,13 +45,38 @@ namespace Dec04
             }
             if (winner != null)
             {
-                long part1Answer = (long)winner.GetLastNumber() * winner.GetUnmarkedSum();
+                long part1Answer = (long)lastNumber * winner.GetUnmarkedSum();
                 Console.WriteLine($"part 1: {part1Answer}");
             }
-            else
-            {
-                Console.WriteLine("try again");
+
+            // Part 2
+            BingoCard lastWinner = null;
+            List<BingoCard> previousWinners = new List<BingoCard>();
+            cards.ForEach(element => element.Reset());
+
+            foreach (string thisNumber in numbers)
+            {                
+                List<BingoCard> stillInPlay = cards.Where(element => !element.IsAWinner()).ToList();
+                stillInPlay.ForEach(element => element.MarkSquare(int.Parse(thisNumber)));              
+                IEnumerable<BingoCard> winners = cards.Where(element => element.IsAWinner());
+                foreach (BingoCard thisWinner in winners)
+                {
+                    if (!previousWinners.Contains(thisWinner))
+                    {
+                        previousWinners.Add(thisWinner);
+                        lastWinner = thisWinner;
+                        lastNumber = int.Parse(thisNumber);
+                    }
+                }
+                
             }
+            if (lastWinner != null)
+            {   
+                int temp = lastWinner.GetUnmarkedSum();
+                long part2Answer = (long)lastNumber * lastWinner.GetUnmarkedSum();
+                Console.WriteLine($"part 2: {part2Answer}");
+            }
+
         }
     }
 }

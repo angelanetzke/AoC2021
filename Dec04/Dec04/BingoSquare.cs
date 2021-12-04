@@ -29,6 +29,11 @@
             return isMarked;
         }
 
+        public void Reset()
+        {
+            isMarked = false;
+        }
+
     }
 
 }

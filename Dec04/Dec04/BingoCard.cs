@@ -10,12 +10,14 @@ namespace Dec04
         private static readonly int SIZE = 5;
         private BingoSquare[] squares;
         private int insertionPoint;
-        private int lastNumber;
+        private static int nextID = 0;
+        private readonly int ID;
         public BingoCard()
         {
             squares = new BingoSquare[SIZE * SIZE];
             insertionPoint = 0;
-            lastNumber = -1;
+            ID = nextID;
+            nextID++;
         }
 
         public void AddRow(String nextRow)
@@ -34,12 +36,6 @@ namespace Dec04
             {
                 thisSquare.MarkIfMatched(number);
             }
-            lastNumber = number;
-        }
-
-        public int GetLastNumber()
-        {
-            return lastNumber;
         }
 
         public int GetUnmarkedSum()
@@ -62,6 +58,11 @@ namespace Dec04
                 }
             }
             return false;
+        }
+
+        public void Reset()
+        {
+            Array.ForEach(squares, element => element.Reset());
         }
 
         private BingoSquare[] GetRow(int rowNumber)
@@ -97,5 +98,15 @@ namespace Dec04
             return builder.ToString();
         }
 
+        public override bool Equals(object obj)
+        {
+            return obj is BingoCard card &&
+                   ID == card.ID;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(ID);
+        }
     }
 }
