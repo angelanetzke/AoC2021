@@ -55,23 +55,19 @@ namespace Dec04
             cards.ForEach(element => element.Reset());
             List<BingoCard> stillInPlay = new List<BingoCard>(cards);
             foreach (string thisNumber in numbers)
-            {                
-                stillInPlay.ForEach(element => element.MarkSquare(int.Parse(thisNumber)));              
-                IEnumerable<BingoCard> winners = cards.Where(element => element.IsAWinner());
+            {
+                stillInPlay.ForEach(element => element.MarkSquare(int.Parse(thisNumber)));
+                List<BingoCard> winners = stillInPlay.Where(element => element.IsAWinner()).ToList();
                 foreach (BingoCard thisWinner in winners)
                 {
-                    if (!previousWinners.Contains(thisWinner))
-                    {
-                        previousWinners.Add(thisWinner);
-                        stillInPlay.Remove(thisWinner);
-                        lastWinner = thisWinner;
-                        lastNumber = int.Parse(thisNumber);
-                    }
+                    previousWinners.Add(thisWinner);
+                    stillInPlay.Remove(thisWinner);
+                    lastWinner = thisWinner;
+                    lastNumber = int.Parse(thisNumber);
                 }
-                
             }
             if (lastWinner != null)
-            {   
+            {
                 int temp = lastWinner.GetUnmarkedSum();
                 long part2Answer = (long)lastNumber * lastWinner.GetUnmarkedSum();
                 Console.WriteLine($"part 2: {part2Answer}");
