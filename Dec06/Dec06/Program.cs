@@ -15,9 +15,10 @@ namespace Dec06
 			foreach (string thisValue in initialValues)
 			{
 				fish[int.Parse(thisValue)]++;
-			}			
-			const int TOTAL_DAYS = 80;
-			for (int day = 0; day < TOTAL_DAYS; day++)
+			}
+			const int PART_ONE_DAY = 80;
+			const int TOTAL_DAYS = 256;
+			for (int day = 1; day <= TOTAL_DAYS; day++)
 			{
 				long zeroDayFish = fish[0];
 				for (int i = 0; i < fish.Count - 1; i++)
@@ -26,8 +27,12 @@ namespace Dec06
 				}
 				fish[6] += zeroDayFish;
 				fish[8] = zeroDayFish;
+				if (day == PART_ONE_DAY)
+				{
+					Console.WriteLine($"part 1: {fish.Sum()}");
+				}
 			}
-			Console.WriteLine($"part 1: {fish.Sum()}");
+			Console.WriteLine($"part 2: {fish.Sum()}");
 
 		}
 
