@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Dec05
 {
@@ -9,6 +10,7 @@ namespace Dec05
 		static void Main(string[] args)
 		{
 			string[] allLines = File.ReadAllLines("input.txt");
+			
 			List<Segment> allSegments = new List<Segment>();
 			foreach (string thisLine in allLines)
 			{
@@ -18,34 +20,37 @@ namespace Dec05
 				int y2 = int.Parse(thisLine.Split(" -> ")[1].Split(",")[1]);
 				allSegments.Add(new Segment(x1, y1, x2, y2));
 			}
-			HashSet<Point> overlappingPoints = new HashSet<Point>();
-			for (int i = 0; i < allSegments.Count - 1; i++)
+			Dictionary<Point, int> pointCount1 = new() { };
+			Dictionary<Point, int> pointCount2 = new() { };
+			foreach (Segment thisSegment in allSegments)
 			{
-				for (int j = i + 1; j < allSegments.Count; j++)
+				List<Point> thisSegmentPoints = thisSegment.GetAllPoints();
+				foreach (Point thisPoint in thisSegmentPoints)
 				{
-					List<Point> thisPointList = allSegments[i].GetOverlap(allSegments[j], true);
-					foreach (Point thisPoint in thisPointList)
+					if (thisSegment.IsHorizontal() || thisSegment.IsVertical())
 					{
-						overlappingPoints.Add(thisPoint);
+						if (!pointCount1.TryGetValue(thisPoint, out int _))
+						{
+							pointCount1[thisPoint] = 1;
+						}
+						else
+						{
+							pointCount1[thisPoint]++;
+						}
+					}
+					if (!pointCount2.TryGetValue(thisPoint, out int _))
+					{
+						pointCount2[thisPoint] = 1;
+					}
+					else
+					{
+						pointCount2[thisPoint]++;
 					}
 				}
 			}
-			Console.WriteLine($"part 1: {overlappingPoints.Count}");
+			Console.WriteLine($"part 1: {pointCount1.Values.Where(element => element > 1).Count()}");
+			Console.WriteLine($"part 2: {pointCount2.Values.Where(element => element > 1).Count()}");
 
-			// Part 2
-			overlappingPoints = new HashSet<Point>();
-			for (int i = 0; i < allSegments.Count - 1; i++)
-			{
-				for (int j = i + 1; j < allSegments.Count; j++)
-				{
-					List<Point> thisPointList = allSegments[i].GetOverlap(allSegments[j], false);
-					foreach (Point thisPoint in thisPointList)
-					{
-						overlappingPoints.Add(thisPoint);
-					}
-				}
-			}
-			Console.WriteLine($"part 2: {overlappingPoints.Count}");
 		}
 	}
 }

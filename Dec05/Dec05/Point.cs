@@ -23,11 +23,6 @@ namespace Dec05
 			return y;
 		}
 
-		public bool IsLeftOf(Point other)
-		{
-			return x <= other.x;
-		}
-
 		public Point NextPoint(int deltaX, int deltaY)
 		{
 			return new Point(x + deltaX, y + deltaY);
