@@ -13,6 +13,26 @@ namespace Dec05
 			this.y = y;
 		}
 
+		public int GetX()
+		{
+			return x;
+		}
+
+		public int GetY()
+		{
+			return y;
+		}
+
+		public bool IsLeftOf(Point other)
+		{
+			return x <= other.x;
+		}
+
+		public Point NextPoint(int deltaX, int deltaY)
+		{
+			return new Point(x + deltaX, y + deltaY);
+		}
+
 		public override bool Equals(object obj)
 		{
 			return obj is Point point &&
@@ -23,6 +43,11 @@ namespace Dec05
 		public override int GetHashCode()
 		{
 			return HashCode.Combine(x, y);
+		}
+
+		public override string ToString()
+		{
+			return "(" + x + "," + y + ")";
 		}
 	}
 }

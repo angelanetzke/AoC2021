@@ -23,7 +23,7 @@ namespace Dec05
 			{
 				for (int j = i + 1; j < allSegments.Count; j++)
 				{
-					List<Point> thisPointList = allSegments[i].GetOverlap(allSegments[j]);
+					List<Point> thisPointList = allSegments[i].GetOverlap(allSegments[j], true);
 					foreach (Point thisPoint in thisPointList)
 					{
 						overlappingPoints.Add(thisPoint);
@@ -31,6 +31,21 @@ namespace Dec05
 				}
 			}
 			Console.WriteLine($"part 1: {overlappingPoints.Count}");
+
+			// Part 2
+			overlappingPoints = new HashSet<Point>();
+			for (int i = 0; i < allSegments.Count - 1; i++)
+			{
+				for (int j = i + 1; j < allSegments.Count; j++)
+				{
+					List<Point> thisPointList = allSegments[i].GetOverlap(allSegments[j], false);
+					foreach (Point thisPoint in thisPointList)
+					{
+						overlappingPoints.Add(thisPoint);
+					}
+				}
+			}
+			Console.WriteLine($"part 2: {overlappingPoints.Count}");
 		}
 	}
 }
