@@ -14,7 +14,7 @@ namespace Dec07
 			Array.Sort(positions);
 			int minPosition = positions[0];
 			int maxPosition = positions[positions.Length - 1];
-			Dictionary<int, int> moveCost = new() { };
+			Dictionary<int, long> moveCost = new() { };
 			for (int newPosition = minPosition; newPosition <= maxPosition; newPosition++)
 			{
 				int thisNewPositionCost = 0;
@@ -23,6 +23,26 @@ namespace Dec07
 			}
 			Console.WriteLine($"part 1: {moveCost.Values.Min()}");
 
+			// Part 2
+			moveCost = new() { };
+			for (int newPosition = minPosition; newPosition <= maxPosition; newPosition++)
+			{
+				long thisNewPositionCost = 0;
+				foreach (int thisPosition in positions)
+				{
+					long steps = Math.Abs(thisPosition - newPosition);
+					if (steps % 2 == 0)
+					{
+						thisNewPositionCost += (steps + 1L) * (steps / 2L);
+					}
+					else
+					{
+						thisNewPositionCost += steps * (steps / 2L + 1L);
+					}
+				}
+				moveCost[newPosition] = thisNewPositionCost;
+			}
+			Console.WriteLine($"part 2: {moveCost.Values.Min()}");
 		}
 	}
 }
