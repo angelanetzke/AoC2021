@@ -27,19 +27,8 @@ namespace Dec07
 			moveCost = new() { };
 			for (int newPosition = minPosition; newPosition <= maxPosition; newPosition++)
 			{
-				long thisNewPositionCost = 0;
-				foreach (int thisPosition in positions)
-				{
-					long steps = Math.Abs(thisPosition - newPosition);
-					if (steps % 2 == 0)
-					{
-						thisNewPositionCost += (steps + 1L) * (steps / 2L);
-					}
-					else
-					{
-						thisNewPositionCost += steps * (steps / 2L + 1L);
-					}
-				}
+				long thisNewPositionCost = positions.Select<int,long>(element => 
+					(Math.Abs(element - newPosition) + 1) * Math.Abs(element - newPosition) / 2L).Sum();
 				moveCost[newPosition] = thisNewPositionCost;
 			}
 			Console.WriteLine($"part 2: {moveCost.Values.Min()}");
