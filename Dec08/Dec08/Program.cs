@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Dec08
 {
@@ -19,6 +20,15 @@ namespace Dec08
 				part1Count += outputs.Count(element => element.Length == 7);
 			}
 			Console.WriteLine($"part 1: {part1Count}");
+
+			long part2Sum = 0L;
+			foreach (string thisLine in allLines)
+			{
+				Display thisDisplay = new(thisLine);
+				part2Sum += thisDisplay.GetOutput();
+			}
+			Console.WriteLine($"part 2: {part2Sum}");
+
 		}
 	}
 }
