@@ -14,6 +14,8 @@ namespace Dec09
 				theHeightMap.AddRow(thisLine);
 			}
 			Console.WriteLine($"part 1: {theHeightMap.GetTotalRiskLevel()}");
+
+			Console.WriteLine($"part 2: {theHeightMap.GetTopBasinProduct()}");
 		}
 
 
