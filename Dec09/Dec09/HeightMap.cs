@@ -32,26 +32,13 @@ namespace Dec09
 			{
 				for (int column = 0; column < heights[0].Count; column++)
 				{
-					List<int> localArea = new();
-					localArea.Add(heights[row][column]);
-					if (row > 0)
-					{
-						localArea.Add(heights[row - 1][column]);
-					}
-					if (row < heights.Count - 1)
-					{
-						localArea.Add(heights[row + 1][column]);
-					}
-					if (column > 0)
-					{
-						localArea.Add(heights[row][column - 1]);
-					}
-					if (column < heights[row].Count - 1)
-					{
-						localArea.Add(heights[row][column + 1]);
-					}
-					if (heights[row][column] == localArea.Min() 
-						&& localArea.Count(element => element == heights[row][column]) == 1)
+					List<Point> localArea = new();
+					int thisHeight = heights[row][column];
+					Point thisPoint = new(row, column, thisHeight);					
+					localArea.Add(thisPoint);
+					localArea.AddRange(GetNeighbors(thisPoint));
+					if (thisHeight == localArea.Min(element => element.getHeight())
+						&& localArea.Count(element => element.getHeight() == thisHeight) == 1)
 					{
 						lowPoints.Add(new Point(row, column, heights[row][column]));
 					}
@@ -63,7 +50,8 @@ namespace Dec09
 
 		public long GetTopBasinProduct()
 		{
-			foreach (Point thisPoint in lowPoints) {
+			foreach (Point thisPoint in lowPoints)
+			{
 				FindBasin(thisPoint);
 			}
 			basins.Sort();
@@ -90,12 +78,12 @@ namespace Dec09
 				List<Point> neighbors = GetNeighbors(thisPoint);
 				foreach (Point thisNeighbor in neighbors)
 				{
-					if (!visited.Contains(thisNeighbor) 
-						&& !toVisit.Contains(thisNeighbor) 
+					if (!visited.Contains(thisNeighbor)
+						&& !toVisit.Contains(thisNeighbor)
 						&& thisNeighbor.getHeight() < 9)
 					{
 						toVisit.Enqueue(thisNeighbor);
-						
+
 					}
 				}
 			}
