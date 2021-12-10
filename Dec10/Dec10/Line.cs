@@ -14,7 +14,20 @@ namespace Dec10
 			['{'] = '}',
 			['<'] = '>'
 		};
-
+		private static readonly Dictionary<char, int> part1Values = new()
+		{
+			[')'] = 3,
+			[']'] = 57,
+			['}'] = 1197,
+			['>'] = 25137,
+		};
+		private static readonly Dictionary<char, long> part2Values = new()
+		{
+			['('] = 1L,
+			['['] = 2L,
+			['{'] = 3L,
+			['<'] = 4L
+		};
 		public Line(string text)
 		{
 			this.text = text;
@@ -38,17 +51,7 @@ namespace Dec10
 					}
 					else
 					{
-						switch (thisChar)
-						{
-							case ')':
-								return 3;
-							case ']':
-								return 57;
-							case '}':
-								return 1197;
-							case '>':
-								return 25137;
-						}
+						return part1Values[thisChar];
 					}
 				}
 			}
@@ -77,21 +80,7 @@ namespace Dec10
 			while(chars.Count > 0)
 			{
 				char topChar = chars.Pop();
-				switch (topChar)
-				{
-					case '(':
-						score = score * 5L + 1L;
-						break;
-					case '[':
-						score = score * 5L + 2L;
-						break;
-					case '{':
-						score = score * 5L + 3L;
-						break;
-					case '<':
-						score = score * 5L + 4L;
-						break;
-				}
+				score = score * 5 + part2Values[topChar];
 			}
 			return score;
 		}
