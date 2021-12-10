@@ -23,7 +23,7 @@ namespace Dec10
 				Line thisSubsystemLine = new(thisLine);
 				if (thisSubsystemLine.GetPart1Score() == 0)
 				{
-					part2Scores.Add((new Line(thisLine).GetPart2Score()));
+					part2Scores.Add((thisSubsystemLine.GetPart2Score()));
 				}
 			}
 			part2Scores.Sort();
