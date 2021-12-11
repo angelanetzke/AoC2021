@@ -15,12 +15,26 @@ namespace Dec11
 			}
 			int totalFlashes = 0;
 			int STEPS = 100;
-			for (int i = 0; i < STEPS; i++)
+			int thisStep = 1;
+			bool areSynchronized = false;
+			int synchronizedStep = -1;
+			while (!areSynchronized || thisStep <= STEPS)
 			{
-				totalFlashes += theGrid.Update();
+				int flashesThisStep = theGrid.Update();
+				if (thisStep <= STEPS)
+				{
+					totalFlashes += flashesThisStep;
+				}
+				if (!areSynchronized && flashesThisStep == theGrid.GetSize())
+				{
+					synchronizedStep = thisStep;
+					areSynchronized = true;
+				}
+				thisStep++;
 			}
 			Console.WriteLine($"part 1: {totalFlashes}");
-			
+			Console.WriteLine($"part 2: {synchronizedStep}");
+
 		}
 	}
 }

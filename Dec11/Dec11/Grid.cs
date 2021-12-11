@@ -10,6 +10,7 @@ namespace Dec11
 		private int nextRow = 0;
 		private int maxColumn = 0;
 		private int maxRow = 0;
+		private int size = 0;
 		public Grid()
 		{
 			octopuses = new();
@@ -21,9 +22,15 @@ namespace Dec11
 				octopuses[new Location(nextRow, column)] =
 					new Octopus(int.Parse(rowString[column].ToString()), nextRow, column);
 			}
+			size += rowString.Length;
 			maxRow = nextRow;
 			maxColumn = rowString.Length - 1;
 			nextRow++;
+		}
+
+		public int GetSize()
+		{
+			return size;
 		}
 		public int Update()
 		{
