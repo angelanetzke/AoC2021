@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Dec12
 {
@@ -53,9 +54,27 @@ namespace Dec12
 					end = secondCave;
 				}
 			}
-			List<Route> routesToEnd = start.Traverse(new Route(), end);
+			List<Route> routesToEnd = start.Traverse(new Route(), end, null);
 			Console.WriteLine($"part 1: {routesToEnd.Count}");
-			
+
+			List<Route> part2Routes = new();
+			List<Cave> smallCaves = caves.Values.ToList()
+				.Where(element => element.GetCaveType() == Cave.CaveType.SMALL).ToList();
+			foreach (Cave thisSmallCave in smallCaves)
+			{
+				List<Route> thisSmallCaveRoutes = start.Traverse(new Route(), end, thisSmallCave);
+				if (thisSmallCaveRoutes.Count > 0)
+				{
+					foreach (Route thisRoute in thisSmallCaveRoutes)
+					{
+						if (!part2Routes.Contains(thisRoute))
+						{
+							part2Routes.Add(thisRoute);
+						}
+					}
+				}
+			}
+			Console.WriteLine($"part 2: {part2Routes.Count}");
 
 		}
 	}

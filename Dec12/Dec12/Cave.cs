@@ -8,13 +8,13 @@ namespace Dec12
 		private readonly string id;
 		private readonly HashSet<string> adjacent;
 		private readonly Dictionary<string, Cave> caveDictionary;
-		private enum CaveType
+		public enum CaveType
 		{
 			LARGE,
 			SMALL,
 			SPECIAL
 		}
-		private readonly CaveType type;
+		private readonly CaveType caveType;
 
 		public Cave(string id, Dictionary<string, Cave> caveDictionary)
 		{
@@ -23,15 +23,15 @@ namespace Dec12
 			this.caveDictionary = caveDictionary;
 			if (id == "start" || id == "end")
 			{
-				type = CaveType.SPECIAL;
+				caveType = CaveType.SPECIAL;
 			}
 			else if (id == id.ToUpper())
 			{
-				type = CaveType.LARGE;
+				caveType = CaveType.LARGE;
 			}
 			else
 			{
-				type = CaveType.SMALL;
+				caveType = CaveType.SMALL;
 			}
 		}
 
@@ -40,12 +40,17 @@ namespace Dec12
 			return id;
 		}
 
+		public CaveType GetCaveType()
+		{
+			return caveType;
+		}
+
 		public void Connect(string other)
 		{
 			adjacent.Add(other);
 		}
 
-		public List<Route> Traverse(Route toHere, Cave end)
+		public List<Route> Traverse(Route toHere, Cave end, Cave smallDuplicate)
 		{
 			toHere.Add(this);
 			if (this.Equals(end))
@@ -58,15 +63,24 @@ namespace Dec12
 				foreach (string nextCaveId in adjacent)
 				{
 					Cave nextCave = caveDictionary[nextCaveId];
-					if (nextCave.type == CaveType.SMALL && toHere.Contains(nextCave))
+					int maxVisitedTimes;
+					if (nextCave.caveType == CaveType.LARGE)
+					{
+						maxVisitedTimes = int.MaxValue;
+					}
+					else if (nextCave == smallDuplicate)
+					{
+						maxVisitedTimes = 2;
+					}
+					else
+					{
+						maxVisitedTimes = 1;
+					}
+					if (toHere.Count(nextCave) >= maxVisitedTimes)
 					{
 						continue;
 					}
-					if (nextCave.id == "start")
-					{
-						continue;
-					}
-					List<Route> nextCaveRoutes = nextCave.Traverse(toHere.Clone(), end);
+					List<Route> nextCaveRoutes = nextCave.Traverse(toHere.Clone(), end, smallDuplicate);
 					if (nextCaveRoutes != null)
 					{
 						routes.AddRange(nextCaveRoutes);
