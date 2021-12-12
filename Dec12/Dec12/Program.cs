@@ -57,7 +57,7 @@ namespace Dec12
 			List<Route> routesToEnd = start.Traverse(new Route(), end, null);
 			Console.WriteLine($"part 1: {routesToEnd.Count}");
 
-			List<Route> part2Routes = new();
+			HashSet<Route> part2Routes = new();
 			List<Cave> smallCaves = caves.Values.ToList()
 				.Where(element => element.GetCaveType() == Cave.CaveType.SMALL).ToList();
 			foreach (Cave thisSmallCave in smallCaves)
@@ -67,10 +67,7 @@ namespace Dec12
 				{
 					foreach (Route thisRoute in thisSmallCaveRoutes)
 					{
-						if (!part2Routes.Contains(thisRoute))
-						{
-							part2Routes.Add(thisRoute);
-						}
+						part2Routes.Add(thisRoute);
 					}
 				}
 			}

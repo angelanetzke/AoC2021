@@ -7,21 +7,32 @@ namespace Dec12
 	internal class Route
 	{
 		private List<Cave> caves;
+		private Dictionary<Cave, int> visitedCount;
 
 		public Route()
 		{
 			caves = new();
+			visitedCount = new();
 		}
 
 		public Route Clone()
 		{
-			Route newPath = new();
-			newPath.caves = new List<Cave>(caves);
-			return newPath;
+			Route newRoute = new();
+			newRoute.caves = new(caves);
+			newRoute.visitedCount = new(visitedCount);
+			return newRoute;
 		}
 		public void Add(Cave newCave)
 		{
 			caves.Add(newCave);
+			if (visitedCount.TryGetValue(newCave, out int count))
+			{
+				visitedCount[newCave] = count + 1;
+			}
+			else
+			{
+				visitedCount[newCave] = 1;
+			}
 		}
 
 		public bool Contains(Cave aCave)
@@ -31,7 +42,14 @@ namespace Dec12
 
 		public int Count(Cave aCave)
 		{
-			return caves.Count(element => element.Equals(aCave));
+			if (visitedCount.TryGetValue(aCave, out int count))
+			{
+				return count;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 
 		public override bool Equals(object obj)
