@@ -63,37 +63,33 @@ namespace Dec12
 				foreach (string nextCaveId in adjacent)
 				{
 					Cave nextCave = caveDictionary[nextCaveId];
-					int maxVisitedTimes;
-					if (nextCave.caveType == CaveType.LARGE)
-					{
-						maxVisitedTimes = int.MaxValue;
+					int maxVisitedTimes = GetMaxVisitedTimes(nextCave, smallDuplicate);
+					if (toHere.Count(nextCave) < maxVisitedTimes)
+					{ 
+						List<Route> nextCaveRoutes = nextCave.Traverse(toHere.Clone(), end, smallDuplicate);
+						if (nextCaveRoutes != null)
+						{
+							routes.AddRange(nextCaveRoutes);
+						}
 					}
-					else if (nextCave == smallDuplicate)
-					{
-						maxVisitedTimes = 2;
-					}
-					else
-					{
-						maxVisitedTimes = 1;
-					}
-					if (toHere.Count(nextCave) >= maxVisitedTimes)
-					{
-						continue;
-					}
-					List<Route> nextCaveRoutes = nextCave.Traverse(toHere.Clone(), end, smallDuplicate);
-					if (nextCaveRoutes != null)
-					{
-						routes.AddRange(nextCaveRoutes);
-					}					
 				}
-				if (routes.Count > 0)
-				{
-					return routes;
-				}
-				else
-				{
-					return null;
-				}
+				return routes.Count > 0 ? routes : null;
+			}
+		}
+
+		private static int GetMaxVisitedTimes(Cave aCave, Cave smallDuplicate)
+		{
+			if (aCave.caveType == CaveType.LARGE)
+			{
+				return int.MaxValue;
+			}
+			else if (aCave == smallDuplicate)
+			{
+				return 2;
+			}
+			else
+			{
+				return 1;
 			}
 		}
 
