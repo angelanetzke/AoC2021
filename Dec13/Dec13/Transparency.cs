@@ -45,15 +45,7 @@ namespace Dec13
 			{
 				int thisX = thisLocation.GetX();
 				int thisY = thisLocation.GetY();
-				int newX;
-				if (thisX > foldX)
-				{
-					newX = foldX - (thisX - foldX);
-				}
-				else
-				{
-					newX = thisX;
-				}
+				int newX = thisX > foldX ? foldX - (thisX - foldX) : thisX;
 				newDots.Add(new Location(newX, thisY));
 			}
 			dots = newDots;
