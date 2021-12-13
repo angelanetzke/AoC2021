@@ -28,12 +28,31 @@ namespace Dec13
 				}
 			}
 			Transparency theTransparency = new();
-			foreach (string thisDotString in dotLines)
+			foreach (string thisDotLine in dotLines)
 			{
-				theTransparency.AddDot(thisDotString);
+				theTransparency.AddDot(thisDotLine);
 			}
-			theTransparency.FoldLeft(655);
-			Console.WriteLine($"part 1: {theTransparency.CountDots()}");
+			bool hasPart1BeenShown = false;
+			foreach (string thisFoldLine in foldLines)
+			{
+				int thisFoldValue = int.Parse(thisFoldLine.Split('=')[1]);
+				if (thisFoldLine.StartsWith("fold along x"))
+				{
+					theTransparency.FoldLeft(thisFoldValue);
+				}
+				else if (thisFoldLine.StartsWith("fold along y"))
+				{
+					theTransparency.FoldUp(thisFoldValue);
+				}
+				if (!hasPart1BeenShown)
+				{
+					Console.WriteLine($"part 1: {theTransparency.CountDots()}");
+					hasPart1BeenShown = true;
+				}
+			}
+			Console.WriteLine("part 2:");
+			Console.WriteLine(theTransparency);
+
 		}
 
 
