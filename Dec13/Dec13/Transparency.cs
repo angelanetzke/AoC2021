@@ -32,15 +32,7 @@ namespace Dec13
 			{
 				int thisX = thisLocation.GetX();
 				int thisY = thisLocation.GetY();
-				int newY;
-				if (thisY > foldY)
-				{
-					newY = foldY - (thisY - foldY);
-				}
-				else
-				{
-					newY = thisY;
-				}
+				int newY = thisY > foldY ? foldY - (thisY - foldY) : thisY;
 				newDots.Add(new Location(thisX, newY));
 			}
 			dots = newDots;
@@ -70,11 +62,13 @@ namespace Dec13
 		public override string ToString()
 		{
 			StringBuilder builder = new();
+			int minX = dots.Min<Location>(element => element.GetX());
+			int minY = dots.Min<Location>(element => element.GetY());
 			int maxX = dots.Max<Location>(element => element.GetX());
 			int maxY = dots.Max<Location>(element => element.GetY());
-			for (int y = 0; y <= maxY; y++)
+			for (int y = minY; y <= maxY; y++)
 			{
-				for (int x = 0; x <= maxX; x++)
+				for (int x = minX; x <= maxX; x++)
 				{
 					if (dots.Contains(new Location(x, y)))
 					{

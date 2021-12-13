@@ -52,6 +52,7 @@ namespace Dec13
 			}
 			Console.WriteLine("part 2:");
 			Console.WriteLine(theTransparency);
+			File.WriteAllText("output.txt", theTransparency.ToString());
 
 		}
 
