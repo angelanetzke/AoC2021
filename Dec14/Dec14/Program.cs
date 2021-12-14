@@ -13,8 +13,12 @@ namespace Dec14
 			{
 				thePolymer.AddRule(allLines[i]);
 			}
+			int part1Iterations = 10;
+			int part2Iterations = 40;
 			thePolymer.Execute(10);
-			Console.WriteLine($"part 1: {thePolymer.GetPart1Answer()}");
+			Console.WriteLine($"part 1: {thePolymer.GetAnswer()}");
+			thePolymer.Execute(part2Iterations - part1Iterations);
+			Console.WriteLine($"part 2: {thePolymer.GetAnswer()}");
 		}
 	}
 }

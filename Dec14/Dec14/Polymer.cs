@@ -6,8 +6,8 @@ namespace Dec14
 	internal class Polymer
 	{
 		private readonly Dictionary<string, char> rules;
-		private Dictionary<string, int> pairCount;
-		private Dictionary<char, int> elementCount;
+		private Dictionary<string, long> pairCount;
+		private Dictionary<char, long> elementCount;
 		public Polymer(string template)
 		{
 			rules = new();
@@ -15,25 +15,25 @@ namespace Dec14
 			for (int i = 0; i < template.Length - 1; i++)
 			{
 				string thisNewKey = template.Substring(i, 2);
-				if (pairCount.TryGetValue(thisNewKey, out int count))
+				if (pairCount.TryGetValue(thisNewKey, out long count))
 				{
-					pairCount[thisNewKey] = count + 1;
+					pairCount[thisNewKey] = count + 1L;
 				}
 				else
 				{
-					pairCount[thisNewKey] = 1;
+					pairCount[thisNewKey] = 1L;
 				}
 			}
 			elementCount = new();
 			foreach (char thisChar in template)
 			{
-				if (elementCount.TryGetValue(thisChar, out int count))
+				if (elementCount.TryGetValue(thisChar, out long count))
 				{
-					elementCount[thisChar] = count + 1;
+					elementCount[thisChar] = count + 1L;
 				}
 				else
 				{
-					elementCount[thisChar] = 1;
+					elementCount[thisChar] = 1L;
 				}
 			}
 		}
@@ -47,15 +47,15 @@ namespace Dec14
 
 		public void Execute(int times)
 		{
-			for (int iteration = 1; iteration <= times; iteration++)
+			for (long iteration = 1; iteration <= times; iteration++)
 			{
-				int newCharCount = 0;
-				Dictionary<string, int> newPairCount = new();
+				long newCharCount = 0;
+				Dictionary<string, long> newPairCount = new();
 				foreach (string thisKey in pairCount.Keys)
 				{
 					newCharCount += pairCount[thisKey];
 					char thisMiddleChar = rules[thisKey];
-					if (elementCount.TryGetValue(thisMiddleChar, out int count))
+					if (elementCount.TryGetValue(thisMiddleChar, out long count))
 					{
 						elementCount[thisMiddleChar] = count + pairCount[thisKey];
 					}
@@ -65,7 +65,7 @@ namespace Dec14
 					}
 					string firstNewKey = thisKey[0] + thisMiddleChar.ToString();
 					string secondNewKey = thisMiddleChar.ToString() + thisKey[1];
-					if (newPairCount.TryGetValue(firstNewKey, out int firstCount))
+					if (newPairCount.TryGetValue(firstNewKey, out long firstCount))
 					{
 						newPairCount[firstNewKey] = firstCount + pairCount[thisKey];
 					}
@@ -73,7 +73,7 @@ namespace Dec14
 					{
 						newPairCount[firstNewKey] = pairCount[thisKey];
 					}
-					if (newPairCount.TryGetValue(secondNewKey, out int secondCount))
+					if (newPairCount.TryGetValue(secondNewKey, out long secondCount))
 					{
 						newPairCount[secondNewKey] = secondCount + pairCount[thisKey];
 					}
@@ -86,10 +86,9 @@ namespace Dec14
 			}
 		}
 
-		public int GetPart1Answer()
+		public long GetAnswer()
 		{
 			return elementCount.Values.Max() - elementCount.Values.Min();
-
 		}
 
 
