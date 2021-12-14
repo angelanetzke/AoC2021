@@ -49,11 +49,9 @@ namespace Dec14
 		{
 			for (int iteration = 1; iteration <= times; iteration++)
 			{
-				long newCharCount = 0;
 				Dictionary<string, long> newPairCount = new();
 				foreach (string thisKey in pairCount.Keys)
 				{
-					newCharCount += pairCount[thisKey];
 					char thisMiddleChar = rules[thisKey];
 					if (elementCount.TryGetValue(thisMiddleChar, out long count))
 					{
