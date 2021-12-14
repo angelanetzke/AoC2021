@@ -7,7 +7,7 @@ namespace Dec14
 	{
 		private readonly Dictionary<string, char> rules;
 		private Dictionary<string, long> pairCount;
-		private Dictionary<char, long> elementCount;
+		private readonly Dictionary<char, long> elementCount;
 		public Polymer(string template)
 		{
 			rules = new();
@@ -47,7 +47,7 @@ namespace Dec14
 
 		public void Execute(int times)
 		{
-			for (long iteration = 1; iteration <= times; iteration++)
+			for (int iteration = 1; iteration <= times; iteration++)
 			{
 				long newCharCount = 0;
 				Dictionary<string, long> newPairCount = new();
@@ -63,8 +63,7 @@ namespace Dec14
 					{
 						elementCount[thisMiddleChar] = pairCount[thisKey];
 					}
-					string firstNewKey = thisKey[0] + thisMiddleChar.ToString();
-					string secondNewKey = thisMiddleChar.ToString() + thisKey[1];
+					string firstNewKey = thisKey[0] + thisMiddleChar.ToString();					
 					if (newPairCount.TryGetValue(firstNewKey, out long firstCount))
 					{
 						newPairCount[firstNewKey] = firstCount + pairCount[thisKey];
@@ -73,6 +72,7 @@ namespace Dec14
 					{
 						newPairCount[firstNewKey] = pairCount[thisKey];
 					}
+					string secondNewKey = thisMiddleChar.ToString() + thisKey[1];
 					if (newPairCount.TryGetValue(secondNewKey, out long secondCount))
 					{
 						newPairCount[secondNewKey] = secondCount + pairCount[thisKey];
