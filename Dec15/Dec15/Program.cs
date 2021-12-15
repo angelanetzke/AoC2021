@@ -12,7 +12,7 @@ namespace Dec15
 			List<List<int>> costs = new();
 			foreach (string thisLine in allLines)
 			{
-				List<int> row = new List<int>();
+				List<int> row = new();
 				foreach (char thisChar in thisLine)
 				{
 					row.Add(int.Parse(thisChar.ToString()));
@@ -34,15 +34,15 @@ namespace Dec15
 			int fullWidth = width * size;
 			int fullHeight = height * size;
 			Grid theGrid2 = new();
-			for (int y = 0; y < fullWidth; y++)
+			for (int y = 0; y < fullHeight; y++)
 			{
-				for (int x = 0; x < fullHeight; x++)
+				for (int x = 0; x < fullWidth; x++)
 				{
 					int gridX = x / width;
 					int gridY = y / height;
 					int costX = x % width;
 					int costY = y % height;
-					int thisCost = costs[costX][costY] + gridX + gridY;
+					int thisCost = costs[costY][costX] + gridX + gridY;
 					if (thisCost > 9)
 					{
 						thisCost -= 9;
