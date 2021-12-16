@@ -72,7 +72,7 @@ namespace Dec16
 		{
 			index = 0;
 			int sum = 0;
-			while (binaryString.Substring(index).Contains('1'))
+			while (binaryString.Substring(index).Contains('1') && index < binaryString.Length)
 			{
 				sum += GetsubpacketVersionNumber();
 
