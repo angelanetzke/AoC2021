@@ -19,26 +19,42 @@ namespace Dec18
 				{
 					combinedTree = combinedTree.Add(new PairTree(thisLine));
 				}
-				bool didSplit;
-				bool didExplode;
-				do
-				{
-					didExplode = true;
-					didSplit = true;
-					int explodeCount = 0;
-					while (combinedTree.Explode())
-					{
-						explodeCount++;
-					}
-					if (explodeCount == 0)
-					{
-						didExplode = false;
-					}
-					didSplit = combinedTree.Split();
-				} while (didSplit || didExplode);
+				Reduce(combinedTree);
 			}
 			Console.WriteLine($"part 1: {combinedTree.GetMagnitude()}");
 
+			long largestMagnitude = long.MinValue;
+			for (int i = 0; i < allLines.Length; i++)
+			{
+				for (int j = 0; j < allLines.Length; j++)
+				{
+					combinedTree = new PairTree(allLines[i]).Add(new PairTree(allLines[j]));
+					Reduce(combinedTree);
+					largestMagnitude = Math.Max(largestMagnitude, combinedTree.GetMagnitude());
+				}
+			}
+			Console.WriteLine($"part 2: {largestMagnitude}");
+
+		}
+		public static void Reduce(PairTree tree)
+		{
+			bool didSplit;
+			bool didExplode;
+			do
+			{
+				didExplode = true;
+				didSplit = true;
+				int explodeCount = 0;
+				while (tree.Explode())
+				{
+					explodeCount++;
+				}
+				if (explodeCount == 0)
+				{
+					didExplode = false;
+				}
+				didSplit = tree.Split();
+			} while (didSplit || didExplode);
 		}
 	}
 }
