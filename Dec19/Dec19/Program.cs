@@ -41,9 +41,46 @@ namespace Dec19
 				}
 			}
 			Console.WriteLine($"part 1: {beaconCount}");
+
+			List<int> translatedIndices = new() { 0 };
+			while (translatedIndices.Count < allScanners.Count)
+			{
+				List<int> nextLevel = new();
+				foreach (int i in translatedIndices)
+				{
+					for (int j = 0; j < allScanners.Count; j++)
+					{
+						if (!translatedIndices.Contains(j) && !nextLevel.Contains(j))
+						{
+							if (allScanners[i].TranslateOther(allScanners[j]))
+							{
+								nextLevel.Add(j);
+							}
+						}
+					}
+				}
+				translatedIndices.AddRange(nextLevel);
+			}
+			int maxDistance = int.MinValue;
+			for (int i = 0; i < allScanners.Count; i++)
+			{
+				for (int j = 0; j < allScanners.Count; j++)
+				{
+					if (i != j)
+					{
+						int thisDistance = Math.Abs(allScanners[i].GetX() - allScanners[j].GetX())
+							+ Math.Abs(allScanners[i].GetY() - allScanners[j].GetY())
+							+ Math.Abs(allScanners[i].GetZ() - allScanners[j].GetZ());
+						maxDistance = Math.Max(maxDistance, thisDistance);
+					}
+				}
+			}
+			Console.WriteLine($"part 2: {maxDistance}");
 		}
+
 
 
 
 	}
 }
+
