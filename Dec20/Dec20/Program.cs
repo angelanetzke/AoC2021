@@ -16,9 +16,17 @@ namespace Dec20
 				initialImage.Add(allLines[i]);
 			}
 			Image theImage = new(algorithm, initialImage);
-			theImage.Enhance();
-			theImage.Enhance();
-			Console.WriteLine($"part 1: {theImage.CountLights()}");
+			int part1Count = 2;
+			int part2Count = 50;
+			for (int i = 1; i <= part2Count; i++) 
+			{
+				theImage.Enhance();
+				if (i == part1Count)
+				{
+					Console.WriteLine($"part 1: {theImage.CountLights()}");
+				}
+			}
+			Console.WriteLine($"part 2: {theImage.CountLights()}");
 		}
 
 
