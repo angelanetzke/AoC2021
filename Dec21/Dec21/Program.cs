@@ -25,6 +25,16 @@ namespace Dec21
 				part1Answer = theGame.GetPlayer2Score() * theGame.GetRollCount();
 			}
 			Console.WriteLine($"part 1: {part1Answer}");
+
+			long[] winCounts = theGame.CountWins(player1Start, 0, player2Start, 0, true);
+			if (winCounts[0] > winCounts[1])
+			{
+				Console.WriteLine($"part 2: {winCounts[0]}");
+			}
+			else
+			{
+				Console.WriteLine($"part 2: {winCounts[1]}");
+			}
 		}
 
 
