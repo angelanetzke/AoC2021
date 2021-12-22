@@ -26,7 +26,7 @@ namespace Dec21
 			}
 			Console.WriteLine($"part 1: {part1Answer}");
 
-			long[] winCounts = theGame.CountWins(player1Start, 0, player2Start, 0, true);
+			long[] winCounts = theGame.CountWins();
 			if (winCounts[0] > winCounts[1])
 			{
 				Console.WriteLine($"part 2: {winCounts[0]}");

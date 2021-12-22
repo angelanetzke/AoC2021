@@ -5,6 +5,8 @@ namespace Dec21
 	internal class Game
 	{
 		private int nextRoll;
+		private int player1Start;
+		private int player2Start;
 		private int player1Position;
 		private int player2Position;
 		int player1Score;
@@ -16,6 +18,8 @@ namespace Dec21
 		public Game(int player1Position, int player2Position)
 		{
 			nextRoll = 1;
+			player1Start = player1Position;
+			player2Start = player2Position;
 			this.player1Position = player1Position;
 			this.player2Position = player2Position;
 			player1Score = 0;
@@ -58,7 +62,12 @@ namespace Dec21
 			return rollCount;
 		}
 
-		public long[] CountWins(
+		public long[] CountWins()
+		{
+			return CountWins(player1Start, 0, player2Start, 0, true);
+		}
+
+		private long[] CountWins(
 			int p1Position, int p1Score, int p2Position, int p2Score, bool isP1Turn)
 		{
 			long player1WinCount = 0L;
